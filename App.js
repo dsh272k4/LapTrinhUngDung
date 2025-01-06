@@ -1,120 +1,82 @@
 import React, { useState } from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
+  View,
   Text,
   TextInput,
-  TouchableOpacity,
-  View,
-  KeyboardAvoidingView,
-  Platform,
-
+  Button,
+  Alert,
 } from 'react-native';
 
-const LoginScreen = () => {
+const Separator = () => <View style={styles.separator} />;
+
+export default function App() {
+  // State để lưu giá trị của TextInput
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  const handleContinue = () => {
-    console.log('Số điện thoại:', phoneNumber);
+  // Hàm xử lý khi nhấn nút
+  const handlePress = () => {
+    Alert.alert(`Số bạn đã nhập là: ${phoneNumber}`);
   };
-  const Separator = () => <View style={styles.separator} />;
+
   return (
-    <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.keyboardAvoidingView}>
-        {/* Tiêu đề */}
-        <Text style={styles.header}>Đăng nhập</Text>
+    <View style={styles.container}>
+      <View style={styles.head}>
+        <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Đăng Nhập</Text>
+      </View>
+      <Separator />
+      <View style={styles.body}>
+        <Text style={{ fontSize: 18, marginBottom: 25 }}>Nhập số điện thoại</Text>
+        <Text style={{ fontSize: 14, marginBottom: 10 }}>
+          Dùng số điện thoại để đăng nhập hoặc đăng ký tài khoản
+        </Text>
+        <TextInput
+          style={styles.input}
+          keyboardType="numeric"
+          maxLength={9}
+          placeholder="Nhập số điện thoại"
+          value={phoneNumber} // Liên kết giá trị TextInput với state
+          onChangeText={(text) => setPhoneNumber(text)} // Cập nhật state khi nhập
+        />
         <Separator />
-        {/* Phần nhập số điện thoại */}
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Nhập số điện thoại</Text>
-          <Text style={styles.subLabel}>
-            Dùng số điện thoại để đăng nhập hoặc đăng ký tài khoản tại OneHousing Pro
-          </Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Nhập số điện thoại của bạn"
-            keyboardType="phone-pad"
-            value={phoneNumber}
-            onChangeText={setPhoneNumber}
-          />
-          <Separator />
-        </View>
+      </View>
 
-        {/* Nút Tiếp tục */}
-        <TouchableOpacity
-          style={[
-            styles.button,
-            phoneNumber.length === 0 && styles.buttonDisabled,
-          ]}
-          onPress={handleContinue}
-          disabled={phoneNumber.length === 0}>
-          <Text style={styles.buttonText}>Tiếp tục</Text>
-        </TouchableOpacity>
-
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+      <View style={styles.footer}>
+        <Button
+          title="Tiếp Tục"
+          onPress={handlePress}
+          disabled={!phoneNumber} // Vô hiệu hóa nếu chưa nhập
+        />
+      </View>
+    </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
-  keyboardAvoidingView: {
-    flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between', // Đẩy các phần tử ra xa nhau
     paddingHorizontal: 16,
   },
-  header: {
-    fontSize: 20,
-    fontWeight: 'bold',
-
-    marginBottom: 24,
+  head: {
+    marginTop: 16,
   },
-  inputContainer: {
-    marginBottom: 32,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  subLabel: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 16,
+  body: {
+    flex: 1,
+    justifyContent: 'center',
   },
   input: {
-    height: 48,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    fontSize: 16,
-  },
-  button: {
-    height: 48,
-    backgroundColor: '#007AFF',
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonDisabled: {
-    backgroundColor: '#ccc',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+    padding: 10,
+    borderColor: '#ccc',
+
+    borderRadius: 5,
   },
   separator: {
     marginVertical: 8,
     borderBottomColor: '#737373',
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
+  footer: {
+    marginBottom: 16, // Tạo khoảng cách với đáy màn hình
+  },
 });
-
-export default LoginScreen;
