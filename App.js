@@ -2,7 +2,17 @@ import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const notifications = [
+// Định nghĩa kiểu dữ liệu cho mỗi mục thông báo
+type ItemData = {
+  id: number;
+  step: string;
+  message: string;
+  time: string;
+  icon: keyof typeof Icon.glyphMap; // Loại biểu tượng từ react-native-vector-icons
+};
+
+// Dữ liệu thông báo
+const DATA: ItemData[] = [
   {
     id: 1,
     step: "Bước 1 Xác định nhu cầu khách hàng",
@@ -48,7 +58,7 @@ const notifications = [
 ];
 
 const App = () => {
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item }: { item: ItemData }) => (
     <View style={styles.card}>
       <View style={styles.iconWrapper}>
         <Icon name={item.icon} size={24} color="#007bff" />
@@ -68,7 +78,7 @@ const App = () => {
 
       {/* Notification List */}
       <FlatList
-        data={notifications}
+        data={DATA}  // Sử dụng DATA đã được định nghĩa
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
       />
@@ -81,7 +91,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f5f5f5',
     padding: 10,
-    marginTop: 30,
   },
   title: {
     fontSize: 18,
