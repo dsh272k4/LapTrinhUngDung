@@ -73,10 +73,7 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      {/* Title */}
       <Text style={styles.title}>Thông báo</Text>
-
-      {/* Notification List */}
       <FlatList
         data={DATA}  // Sử dụng DATA đã được định nghĩa
         renderItem={renderItem}
